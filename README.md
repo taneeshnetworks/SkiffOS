@@ -1,4 +1,4 @@
-# SkiffOS
+# SkiffOS [![Build Status](https://travis-ci.org/paralin/SkiffOS.svg)](https://travis-ci.org/paralin/SkiffOS)
 
 ![](http://i.imgur.com/XqpQJEm.png)
 
