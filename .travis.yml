@@ -1,4 +1,8 @@
 language: c
+addons:
+  apt:
+    packages:
+      - bc
 env:
   - SKIFF_CONFIG=odroid/u,skiff/core
   - SKIFF_CONFIG=odroid/xu4,skiff/core
