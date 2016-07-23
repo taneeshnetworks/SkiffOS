@@ -8,4 +8,4 @@ env:
   - SKIFF_CONFIG=odroid/xu4,skiff/core
   - SKIFF_CONFIG=odroid/c2,skiff/core
 # - SKIFF_CONFIG=general/amd64,skiff/core
-script: make configure compile
+script: make SKIFF_QUIET=true configure compile

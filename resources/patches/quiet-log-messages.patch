@@ -1,0 +1,13 @@
+diff --git a/package/pkg-utils.mk b/package/pkg-utils.mk
+index c61b3b6..0f03956 100644
+--- a/package/pkg-utils.mk
++++ b/package/pkg-utils.mk
+@@ -83,7 +83,7 @@ INFLATE.tar  = cat
+ suitable-extractor = $(INFLATE$(suffix $(1)))
+ 
+ # MESSAGE Macro -- display a message in bold type
+-MESSAGE = echo "$(TERM_BOLD)>>> $($(PKG)_NAME) $($(PKG)_VERSION) $(call qstrip,$(1))$(TERM_RESET)"
++MESSAGE = echo "$(TERM_BOLD)>>> $($(PKG)_NAME) $($(PKG)_VERSION) $(call qstrip,$(1))$(TERM_RESET)" |tee -a $(BASE_DIR)/../buildroot-messages.log
+ TERM_BOLD := $(shell tput smso 2>/dev/null)
+ TERM_RESET := $(shell tput rmso 2>/dev/null)
+ 
