@@ -3,6 +3,9 @@ addons:
   apt:
     packages:
       - bc
+cache:
+  directories:
+    - $HOME/.buildroot-ccache
 env:
   - SKIFF_CONFIG=odroid/u,skiff/core
   - SKIFF_CONFIG=odroid/xu4,skiff/core
