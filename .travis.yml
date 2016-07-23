@@ -7,8 +7,8 @@ cache:
   directories:
     - $HOME/.buildroot-ccache
 env:
-  - SKIFF_CONFIG=odroid/u,skiff/core
-  - SKIFF_CONFIG=odroid/xu4,skiff/core
-  - SKIFF_CONFIG=odroid/c2,skiff/core
+  - CACHE_NAME=arm SKIFF_CONFIG=odroid/u,skiff/core
+  - CACHE_NAME=arm SKIFF_CONFIG=odroid/xu4,skiff/core
+  - CACHE_NAME=aarch64 SKIFF_CONFIG=odroid/c2,skiff/core
 # - SKIFF_CONFIG=general/amd64,skiff/core
 script: make SKIFF_QUIET=true configure compile
