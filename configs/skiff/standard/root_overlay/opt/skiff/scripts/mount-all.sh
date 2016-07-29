@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+# set -e
 
 if [ ! -d "/opt/skiff" ]; then
   echo "Non-skiff system detected, bailing out!"
@@ -40,11 +40,13 @@ if mountpoint -q $PERSIST_MNT || mount LABEL=persist $PERSIST_MNT; then
   echo "Configuring Docker to use $DOCKER_PERSIST"
   DOCKER_EXECSTART+=" --graph=\"$DOCKER_PERSIST\""
   echo "Configuring systemd-journald to use $JOURNAL_PERSIST"
+  systemctl stop systemd-journald || true
   if [ -d /var/log/journal ]; then
     rm -rf /var/log/journal || true
   fi
   ln -s $JOURNAL_PERSIST /var/log/journal
   chown -R root:systemd-journal /var/log/journal/
+  systemctl start --no-block systemd-journald
 
   if [ ! -f $SSH_PERSIST/sshd_config ]; then
     cp /etc/ssh/sshd_config $SSH_PERSIST/sshd_config
@@ -71,10 +73,11 @@ else
   echo "Unable to find drive with label \"rootfs\"!"
 fi
 
-if modprobe aufs; then
-  echo "Successfully modprobed aufs, using it for docker."
-  DOCKER_EXECSTART+=" --storage-driver=aufs"
-fi
+# cs: Allow docker to chose its own storage driver
+# if modprobe aufs; then
+#   echo "Successfully modprobed aufs, using it for docker."
+#   DOCKER_EXECSTART+=" --storage-driver=aufs"
+# fi
 
 echo "Configuring Docker to start with '$DOCKER_EXECSTART'"
 printf "[Service]\nExecStart=\nExecStart=$DOCKER_EXECSTART" > $DOCKER_CONFD/execstart.conf
@@ -134,10 +137,10 @@ fi
 
 touch $INIT_ONCE
 systemctl daemon-reload
-systemctl restart systemd-journald || true
 
 if [ -n "$RESTART_WPA" ]; then
   systemctl restart --no-block 'wpa_supplicant@*'
 fi
 
-systemctl restart systemd-networkd || true
+systemctl restart --no-block systemd-networkd || true
+systemctl start --no-block multi-user.target || true
