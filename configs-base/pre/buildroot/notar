@@ -1,0 +1,2 @@
+# Clear the default setting for output
+BR2_TARGET_ROOTFS_TAR=n
